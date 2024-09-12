@@ -10,7 +10,11 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    Player player;
+    private List<Sprite> enemies;
+
+    Sprite player;
+
+    Sprite enemy;
 
     Texture2D pixel;
     
@@ -35,7 +39,11 @@ public class Game1 : Game
         pixel = new Texture2D(GraphicsDevice,1,1);
         pixel.SetData(new Color[]{Color.White});
 
-        player = new Player(pixel);
+        Vector2 position = new(400, 240);
+
+        player = new Player(pixel, position);
+
+        enemy = new Enemy(pixel, position);
         // TODO: use this.Content to load your game content here
     }
 
@@ -56,7 +64,8 @@ public class Game1 : Game
 
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
-        player.Draw(_spriteBatch);
+        player.Draw(_spriteBatch, 50, 50);
+        enemy.Draw(_spriteBatch, 30, 40);
         _spriteBatch.End();
 
         base.Draw(gameTime);

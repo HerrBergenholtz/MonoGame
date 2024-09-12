@@ -1,20 +1,17 @@
-using Microsoft.Xna.Framework;
+using System.Numerics;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
-namespace MonoGame
-{
-    public class Player
-    {
-        Vector2 position = new Vector2(400, 240);
-        Texture2D texture;
 
-        public Player(Texture2D texture) {
-            this.texture = texture;
-        }
+namespace MonoGame {
+    public class Player : Sprite {
+        public Player(Texture2D texture, Microsoft.Xna.Framework.Vector2 position) : base(texture, position) { }
 
-        public void Update() {
+        public override void Update()
+        {
             KeyboardState kState = Keyboard.GetState();
+
             if(kState.IsKeyDown(Keys.W)) {
                 position.Y -= 1;
             }
@@ -27,11 +24,6 @@ namespace MonoGame
             if( kState.IsKeyDown(Keys.D)) {
                 position.X += 1;
             }
-        }
-
-        public void Draw(SpriteBatch spriteBatch) {
-            Rectangle playerRectangle = new Rectangle((int)position.X, (int)position.Y, 100, 100);
-            spriteBatch.Draw(texture, playerRectangle, Color.AliceBlue);
         }
     }
 }
