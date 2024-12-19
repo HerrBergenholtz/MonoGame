@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/Admin/Documents/GitHub/Lister-av-tabeller/MonoGame/Content/pixel.png</File>
+    <File>C:/Users/Admin/Documents/GitHub/Lister-av-tabeller/MonoGame/Content/snowFlake.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

@@ -29,7 +29,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        Texture2D pixel = Content.Load<Texture2D>("pixel");
+        Texture2D pixel = Content.Load<Texture2D>("snowFlake");
         particleSystem = new ParticleSystem(pixel);
     }
 
