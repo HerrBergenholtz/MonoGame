@@ -3,16 +3,12 @@ using Microsoft.Xna.Framework;
 using System;
 
 namespace MonoGame {
-    public class Particle {
+    public class FallenParticle {
         private int size;
         private Color color;
-        private float minFallSpeed = 40;
-        private float maxFallSpeed = 70;
-        private float fallSpeed = 0;
         private Vector2 position;
         private Texture2D texture;
         private float time = 0;
-        private int border = 470;
         private Vector2 velocity = new();
 
         public Vector2 Position {
@@ -20,49 +16,32 @@ namespace MonoGame {
             set { position = value; }
         }
 
-        public int Size {
-            get { return size; }
-        }
-
-        public Color Color {
-            get { return color; }
-        }
-
-        public Texture2D Texture {
-            get { return texture; }
-        }
-
         public Vector2 Velocity {
             set{ velocity = value; }
         }
 
-        public Particle(int size, Color color, Vector2 position, Texture2D texture) {
+        public FallenParticle(int size, Color color, Vector2 position, Texture2D texture) {
             this.size = size;
             this.color = color;
             this.position = position;
             this.texture = texture;
             Random random = new();
             time = (float)(random.NextDouble() * MathF.Tau);
-
-            float fallSpeedDiff = maxFallSpeed - minFallSpeed;
-            float sizePercent = size / 20f;
-            fallSpeed = minFallSpeed + (fallSpeedDiff * sizePercent);
         }
 
-        public bool CheckCollisions() {
-            if (position.Y > border) {
-                return true;
+        public void BlownAway() {
+            velocity.Y -= 0.25f;
+            if(position.X > 400) {
+                velocity.X += 2;
             }
             else {
-                return false;
+                velocity.X -= 2;
             }
         }
 
         public void Update() {
             float dt = 1f / 60f;
             time += dt;
-            velocity.Y = fallSpeed * dt;
-            velocity.X += MathF.Sin(time * 3);
             position += velocity;
         }
 

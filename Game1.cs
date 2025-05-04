@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -10,6 +9,8 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private ParticleSystem particleSystem;
+    private Weather weatherState;
+    private SnowBlower snowBlower;
     
     public Game1()
     {
@@ -20,8 +21,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
         base.Initialize();
     }
 
@@ -30,12 +29,36 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         Texture2D pixel = Content.Load<Texture2D>("snowFlake");
-        particleSystem = new ParticleSystem(pixel);
+        weatherState = new Calm();
+        particleSystem = new ParticleSystem(pixel, weatherState);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        // TODO: Add your update logic here
+        KeyboardState keys = Keyboard.GetState();
+        MouseState mouse = Mouse.GetState();
+
+        if (keys.IsKeyDown(Keys.Right)) {
+            particleSystem.WindSpeedControl(true);
+        }
+        if (keys.IsKeyDown(Keys.Left)) {
+            particleSystem.WindSpeedControl(false);
+        }
+
+        if (keys.IsKeyDown(Keys.D1)) {
+            particleSystem.SetWeather(new Calm());
+        }
+        if (keys.IsKeyDown(Keys.D2)) {
+            particleSystem.SetWeather(new Windy());
+        }
+        if (keys.IsKeyDown(Keys.D3)) {
+            particleSystem.SetWeather(new Blizzard());
+        }
+
+        if (mouse.LeftButton == ButtonState.Pressed) {
+            Vector2 mousePos = new(mouse.X, mouse.Y);
+            snowBlower = new(40, mousePos, particleSystem.GetFallenParticleList);
+        }
 
         particleSystem.Update();
 
@@ -45,7 +68,6 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-        // TODO: Add your drawing code here
 
         _spriteBatch.Begin();
         particleSystem.Draw(_spriteBatch);
